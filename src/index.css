@@ -5,9 +5,41 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  width: 100%;
+  background-color: black;
+}
+#root,
+.App{
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+#myVideo{
+  position: absolute;
+  width: calc(100vw/5);
+  height: auto;
+  bottom: 1em;
+  right: 1em;
+  border-radius: 0.5em;
+  z-index: 1;
+}
+#AdminVideo{
+  /* position: absolute; */
+  height: 80%;
+  width: auto;
+  border-radius: 0.5em;
+}
+@media screen and (max-width: 780px) {
+  #AdminVideo{
+    width: 80%;
+    height: auto;
+  }
+  #myVideo{
+    width: calc(100vw/3);
+  }
 }
