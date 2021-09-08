@@ -63,7 +63,7 @@ module.exports.setAnswer = ({ peer, answer }) => {
 };
 module.exports.setIceCandidate = async ({ peer, Ice_Candidate }) => {
   peer
-    .addIceCandidate(JSON.parse(Ice_Candidate))
+    .addIceCandidate(new Webrtc.RTCIceCandidate(JSON.parse(Ice_Candidate)))
     .then((data) => console.log(data))
     .catch((error) => console.log(error));
 };
