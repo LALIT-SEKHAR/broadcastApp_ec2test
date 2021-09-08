@@ -3,6 +3,7 @@ const {
   addTracks,
   handelOnIceCandidate,
   createAnswer,
+  handelOnIceConnectionStateChange,
 } = require("../ConnectPeer/PeerConnect");
 const { MEMBERS } = require("../DATABASE");
 
@@ -33,6 +34,8 @@ const SendAnswerToAdmin = async ({ payload, socket }) => {
       member.peer.ontrack = (e) => {
         MEMBERS[index].mediaStream = e.streams;
       };
+      MEMBERS[index].peer.oniceconnectionstatechange = () =>
+        handelOnIceConnectionStateChange(MEMBERS[index].peer);
       MEMBERS[index].peer.onicecandidate = (e) => {
         if (e.candidate) {
           handelOnIceCandidate({
@@ -71,6 +74,8 @@ const SendAnswerToClient = async ({ payload, socket }) => {
         mediaStream: MEMBERS[0].mediaStream[0],
         peer: MEMBERS[index].peer,
       });
+      MEMBERS[index].peer.oniceconnectionstatechange = () =>
+        handelOnIceConnectionStateChange(MEMBERS[index].peer);
       MEMBERS[index].peer.onicecandidate = (e) => {
         if (e.candidate) {
           handelOnIceCandidate({
