@@ -44,13 +44,23 @@ module.exports.handelOnTrack = (e) => {
   console.log(e.track);
 };
 
-module.exports.handelOnIceCandidate = ({ Ice_Candidate, peer }) => {
-  // console.log(Ice_Candidate);
+module.exports.handelOnIceCandidate = ({
+  Ice_Candidate,
+  level,
+  id,
+  socket,
+}) => {
+  let payload = {
+    Ice_Candidate: JSON.stringify(Ice_Candidate),
+    level,
+    id,
+  };
+  socket.emit("ice_candidate", payload);
 };
 
 module.exports.setAnswer = ({ peer, answer }) => {
   peer.setRemoteDescription(answer);
 };
 module.exports.setIceCandidate = ({ peer, Ice_Candidate }) => {
-  peer.addIceCandidate(Ice_Candidate);
+  peer.addIceCandidate(JSON.parse(Ice_Candidate));
 };

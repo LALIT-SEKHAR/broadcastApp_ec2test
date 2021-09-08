@@ -20,6 +20,7 @@ module.exports.offerScanner = ({ payload, socket }) => {
   SendAnswerToClient({ payload, socket });
 };
 
+// this for ADMIN
 const SendAnswerToAdmin = async ({ payload, socket }) => {
   const peer = createPeer();
   MEMBERS.push({
@@ -33,10 +34,14 @@ const SendAnswerToAdmin = async ({ payload, socket }) => {
         MEMBERS[index].mediaStream = e.streams;
       };
       MEMBERS[index].peer.onicecandidate = (e) => {
-        handelOnIceCandidate({
-          Ice_Candidate: e.candidate,
-          peer: MEMBERS[index].peer,
-        });
+        if (e.candidate) {
+          handelOnIceCandidate({
+            socket,
+            Ice_Candidate: e.candidate,
+            id: member.id,
+            level: member.level,
+          });
+        }
       };
       const answer = await createAnswer({
         peer: MEMBERS[index].peer,
@@ -52,6 +57,7 @@ const SendAnswerToAdmin = async ({ payload, socket }) => {
   });
 };
 
+//this for everyone except ADMIN | for now |
 const SendAnswerToClient = async ({ payload, socket }) => {
   const peer = createPeer();
   MEMBERS.push({
@@ -66,10 +72,14 @@ const SendAnswerToClient = async ({ payload, socket }) => {
         peer: MEMBERS[index].peer,
       });
       MEMBERS[index].peer.onicecandidate = (e) => {
-        handelOnIceCandidate({
-          Ice_Candidate: e.candidate,
-          peer: MEMBERS[index].peer,
-        });
+        if (e.candidate) {
+          handelOnIceCandidate({
+            socket,
+            Ice_Candidate: e.candidate,
+            id: member.id,
+            level: member.level,
+          });
+        }
       };
       const answer = await createAnswer({
         peer: MEMBERS[index].peer,
