@@ -4,7 +4,6 @@ import {
   addTracks,
   createOffer,
   createPeer,
-  handelOnIceCandidate,
   handelOnTrack,
 } from "./helper/peerConnection/ConnectPeer";
 import { SocketInit } from "./helper/socketCommunication";
@@ -34,13 +33,27 @@ function App() {
 
   const SendOffer = async () => {
     Peer.current = createPeer();
-    addTracks({
-      mediaStream: MyMediaStream.current,
-      peer: Peer.current,
-    });
+    //TODO: make addTrack only for ADMIN
+    if (Input.current.value === "ADMIN") {
+      addTracks({
+        mediaStream: MyMediaStream.current,
+        peer: Peer.current,
+      });
+    } else {
+      Peer.current.addTransceiver("video", { direction: "recvonly" });
+      Peer.current.addTransceiver("audio", { direction: "recvonly" });
+    }
     Peer.current.ontrack = handelOnTrack;
-    Peer.current.onicecandidate = (e) =>
-      handelOnIceCandidate({ peer: Peer.current, Ice_Candidate: e.candidate });
+    Peer.current.onicecandidate = (e) => {
+      if (e.candidate && e.candidate.candidate) {
+        let payload = {
+          id: Socket.current.id,
+          Ice_Candidate: JSON.stringify(e.candidate),
+          level: Input.current.value,
+        };
+        Socket.current.emit("ice_candidate", payload);
+      }
+    };
     Peer.current.onnegotiationneeded = async () => {
       const offer = await createOffer({ peer: Peer.current });
       let payload = {
@@ -57,12 +70,10 @@ function App() {
     <div className="App">
       <div className="infoWarper">
         <h1>Hello</h1>
-        <input
-          type="text"
-          ref={Input}
-          defaultValue="client"
-          placeholder="enter level"
-        />
+        <select name="level" ref={Input}>
+          <option value="CLIENT">CLIENT</option>
+          <option value="ADMIN">ADMIN</option>
+        </select>
         <button onClick={SendOffer}>Connect</button>
       </div>
       <video id="myVideo" ref={myVideo} autoPlay muted></video>

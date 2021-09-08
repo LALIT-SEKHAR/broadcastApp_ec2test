@@ -53,13 +53,14 @@ export const handelOnTrack = (e) => {
   }
 };
 
-export const handelOnIceCandidate = ({ Ice_Candidate, peer }) => {
+export const handelOnIceCandidate = ({ Ice_Candidate, peer, socket }) => {
   // console.log(Ice_Candidate);
+  socket.emit("ice_candidate", Ice_Candidate);
 };
 
 export const setAnswer = ({ peer, answer }) => {
   peer.setRemoteDescription(answer);
 };
 export const setIceCandidate = ({ peer, Ice_Candidate }) => {
-  peer.addIceCandidate(Ice_Candidate);
+  peer.addIceCandidate(JSON.parse(Ice_Candidate));
 };
