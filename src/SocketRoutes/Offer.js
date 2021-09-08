@@ -34,7 +34,7 @@ const SendAnswerToAdmin = async ({ payload, socket }) => {
         MEMBERS[index].mediaStream = e.streams;
       };
       MEMBERS[index].peer.onicecandidate = (e) => {
-        if (e.candidate) {
+        if (e.candidate && e.candidate.candidate) {
           handelOnIceCandidate({
             socket,
             Ice_Candidate: e.candidate,
@@ -72,7 +72,7 @@ const SendAnswerToClient = async ({ payload, socket }) => {
         peer: MEMBERS[index].peer,
       });
       MEMBERS[index].peer.onicecandidate = (e) => {
-        if (e.candidate) {
+        if (e.candidate && e.candidate.candidate) {
           handelOnIceCandidate({
             socket,
             Ice_Candidate: e.candidate,
