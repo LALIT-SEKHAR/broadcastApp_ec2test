@@ -62,9 +62,8 @@ module.exports.setAnswer = ({ peer, answer }) => {
   peer.setRemoteDescription(answer);
 };
 module.exports.setIceCandidate = async ({ peer, Ice_Candidate }) => {
-  try {
-    peer.addIceCandidate(JSON.parse(Ice_Candidate));
-  } catch (error) {
-    console.log(error);
-  }
+  peer
+    .addIceCandidate(JSON.parse(Ice_Candidate))
+    .then((data) => console.log(data))
+    .catch((error) => console.log(error));
 };
