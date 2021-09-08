@@ -61,6 +61,10 @@ module.exports.handelOnIceCandidate = ({
 module.exports.setAnswer = ({ peer, answer }) => {
   peer.setRemoteDescription(answer);
 };
-module.exports.setIceCandidate = ({ peer, Ice_Candidate }) => {
-  peer.addIceCandidate(JSON.parse(Ice_Candidate));
+module.exports.setIceCandidate = async ({ peer, Ice_Candidate }) => {
+  try {
+    peer.addIceCandidate(JSON.parse(Ice_Candidate));
+  } catch (error) {
+    console.log(error);
+  }
 };
