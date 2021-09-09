@@ -1,1 +1,3 @@
-module.exports.MEMBERS = [];
+let MEMBERS = [];
+
+module.exports = { MEMBERS };

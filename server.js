@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const { MEMBERS } = require("./src/DATABASE");
 const { IceCandidateScanner } = require("./src/SocketRoutes/IceCandidate");
 const { offerScanner } = require("./src/SocketRoutes/Offer");
 const app = express();
@@ -23,6 +24,17 @@ Io.on("connection", (socket) => {
   });
   socket.on("answer", (payload) => {
     console.log("answer: ", payload);
+  });
+  socket.on("disconnect", function () {
+    MEMBERS.forEach((member, index) => {
+      if (member.level === "ADMIN") {
+        MEMBERS.map(() => MEMBERS.pop());
+        //TODO close all the connection
+      }
+      if (member.id === socket.id) {
+        MEMBERS.splice(index, index);
+      }
+    });
   });
 });
 
