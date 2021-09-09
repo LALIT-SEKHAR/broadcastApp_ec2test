@@ -27,11 +27,11 @@ Io.on("connection", (socket) => {
   });
   socket.on("disconnect", function () {
     MEMBERS.forEach((member, index) => {
-      if (member.level === "ADMIN") {
-        MEMBERS.map(() => MEMBERS.pop());
-        //TODO close all the connection
-      }
       if (member.id === socket.id) {
+        if (member.level === "ADMIN") {
+          return MEMBERS.map(() => MEMBERS.pop());
+          //TODO close all the connection
+        }
         MEMBERS.splice(index, index);
       }
     });
