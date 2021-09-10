@@ -32,7 +32,7 @@ const SendAnswerToAdmin = async ({ payload, socket }) => {
   MEMBERS.forEach(async (member, index) => {
     if (member.id === payload.id) {
       member.peer.ontrack = (e) => {
-        MEMBERS[index].mediaStream = e.streams;
+        MEMBERS[index].mediaStream = e.streams[0];
       };
       MEMBERS[index].peer.onicecandidate = (e) => {
         if (e.candidate) {
@@ -69,7 +69,7 @@ const SendAnswerToClient = async ({ payload, socket }) => {
   MEMBERS.forEach(async (member, index) => {
     if (member.id === payload.id) {
       addTracks({
-        mediaStream: MEMBERS[0].mediaStream[0],
+        mediaStream: MEMBERS[0].mediaStream,
         peer: MEMBERS[index].peer,
       });
       MEMBERS[index].peer.onicecandidate = (e) => {
