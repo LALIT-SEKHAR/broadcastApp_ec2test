@@ -14,9 +14,10 @@ module.exports.createPeer = () => {
 };
 
 module.exports.addTracks = ({ mediaStream, peer }) => {
-  return mediaStream
-    .getAudioTrack()
-    .forEach((track) => peer.addTrack(track, mediaStream));
+  // return mediaStream
+  //   .getTracks()
+  //   .forEach((track) => peer.addTrack(track, mediaStream));
+  return peer.addTrack(mediaStream.getAudioTrack()[0], mediaStream);
 };
 
 module.exports.createOffer = async ({ peer }) => {
