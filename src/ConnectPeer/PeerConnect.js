@@ -13,11 +13,11 @@ module.exports.createPeer = () => {
   });
 };
 
-module.exports.addTracks = ({ mediaStream, peer }) => {
-  // return mediaStream
-  //   .getTracks()
-  //   .forEach((track) => peer.addTrack(track, mediaStream));
-  return peer.addTrack(mediaStream.getAudioTrack()[0], mediaStream);
+module.exports.addTracks = ({ mediaStream, peer, socket }) => {
+  return mediaStream.getTracks().forEach((track) => {
+    socket.emit("track", track);
+    peer.addTrack(track, mediaStream);
+  });
 };
 
 module.exports.createOffer = async ({ peer }) => {
