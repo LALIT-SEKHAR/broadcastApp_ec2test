@@ -15,7 +15,7 @@ module.exports.createPeer = () => {
 
 module.exports.addTracks = ({ mediaStream, peer }) => {
   return mediaStream.getTracks().forEach((track) => {
-    console.log(track);
+    console.log(track[0]);
     peer.addTrack(track, mediaStream);
   });
 };
