@@ -71,7 +71,6 @@ const SendAnswerToClient = async ({ payload, socket }) => {
       addTracks({
         mediaStream: MEMBERS[0].mediaStream,
         peer: MEMBERS[index].peer,
-        socket,
       });
       MEMBERS[index].peer.onicecandidate = (e) => {
         if (e.candidate) {

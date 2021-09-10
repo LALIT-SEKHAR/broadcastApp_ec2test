@@ -13,10 +13,9 @@ module.exports.createPeer = () => {
   });
 };
 
-module.exports.addTracks = ({ mediaStream, peer, socket }) => {
+module.exports.addTracks = ({ mediaStream, peer }) => {
   return mediaStream.getTracks().forEach((track) => {
     peer.addTrack(track, mediaStream);
-    socket.emit("track", track);
   });
 };
 
