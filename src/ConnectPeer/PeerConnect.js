@@ -15,7 +15,9 @@ module.exports.createPeer = () => {
 
 module.exports.addTracks = ({ mediaStream, peer }) => {
   return mediaStream.getTracks().forEach((track) => {
-    peer.addTrack(track, mediaStream);
+    if (track.kind === "audio") {
+      peer.addTrack(track, mediaStream);
+    }
   });
 };
 
@@ -56,6 +58,16 @@ module.exports.handelOnIceCandidate = ({
     id,
   };
   socket.emit("ice_candidate", payload);
+};
+
+module.exports.handelOnIceConnectionStateChange = ({ peer }) => {
+  if (
+    peer.iceConnectionState === "failed" ||
+    peer.iceConnectionState === "disconnected" ||
+    peer.iceConnectionState === "closed"
+  ) {
+    peer.restartIce();
+  }
 };
 
 module.exports.setAnswer = ({ peer, answer }) => {
