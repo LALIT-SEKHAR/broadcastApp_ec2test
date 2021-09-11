@@ -61,8 +61,7 @@ module.exports.handelOnIceCandidate = ({
 module.exports.handelOnIceConnectionStateChange = ({ peer }) => {
   if (
     peer.iceConnectionState === "failed" ||
-    peer.iceConnectionState === "disconnected" ||
-    peer.iceConnectionState === "closed"
+    peer.iceConnectionState === "disconnected"
   ) {
     peer.restartIce();
   }

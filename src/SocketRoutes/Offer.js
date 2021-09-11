@@ -34,7 +34,11 @@ const SendAnswerToAdmin = async ({ payload, socket }) => {
       member.peer.ontrack = (e) => {
         MEMBERS[index].mediaStream = e.streams[0];
       };
-      member.peer.oniceconnectionstatechange = handelOnIceConnectionStateChange;
+      member.peer.oniceconnectionstatechange = () => {
+        if (MEMBERS[index]) {
+          handelOnIceConnectionStateChange({ peer: MEMBERS[index].peer });
+        }
+      };
       MEMBERS[index].peer.onicecandidate = (e) => {
         if (e.candidate) {
           handelOnIceCandidate({
@@ -73,8 +77,11 @@ const SendAnswerToClient = async ({ payload, socket }) => {
         mediaStream: MEMBERS[0].mediaStream,
         peer: MEMBERS[index].peer,
       });
-      MEMBERS[index].peer.oniceconnectionstatechange = () =>
-        handelOnIceConnectionStateChange({ peer: MEMBERS[index].peer });
+      MEMBERS[index].peer.oniceconnectionstatechange = () => {
+        if (MEMBERS[index]) {
+          handelOnIceConnectionStateChange({ peer: MEMBERS[index].peer });
+        }
+      };
       MEMBERS[index].peer.onicecandidate = (e) => {
         if (e.candidate) {
           handelOnIceCandidate({
