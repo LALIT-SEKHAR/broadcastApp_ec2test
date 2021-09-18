@@ -66,6 +66,7 @@ const SendAnswerToAdmin = async ({ payload, socket }) => {
 //this for everyone except ADMIN | for now |
 const SendAnswerToClient = async ({ payload, socket }) => {
   const peer = createPeer();
+  // adding to array
   MEMBERS.push({
     id: payload.id,
     peer,
