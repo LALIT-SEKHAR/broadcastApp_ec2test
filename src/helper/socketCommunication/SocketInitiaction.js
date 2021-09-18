@@ -3,9 +3,7 @@ import { io } from "socket.io-client";
 
 export const SocketInit = async () => {
   try {
-    const socket = await io.connect(
-      "http://ec2-15-207-98-117.ap-south-1.compute.amazonaws.com:5000"
-    );
+    const socket = await io.connect(process.env.REACT_APP_SERVER_ENDPOINT);
     socket.on("offer", (payload) => {
       console.log("offer: ", payload);
     });
