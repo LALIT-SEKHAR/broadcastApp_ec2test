@@ -17,6 +17,16 @@ export const addTracks = ({ mediaStream, peer }) => {
   });
 };
 
+export const handelOnIceconnectionStateChange = ({ peer }) => {
+  if (
+    peer.iceConnectionState === "failed" ||
+    peer.iceConnectionState === "disconnected" ||
+    peer.iceConnectionState === "closed"
+  ) {
+    peer.restartIce();
+  }
+};
+
 export const createOffer = async ({ peer }) => {
   try {
     const offer = await peer.createOffer();
@@ -38,10 +48,10 @@ export const createAnswer = async ({ peer, offer }) => {
   }
 };
 
+const mediaStream = new MediaStream();
 export const handelOnTrack = (e) => {
-  const mediaStream = new MediaStream();
   mediaStream.addTrack(e.track, mediaStream);
-  if (e.track.kind === "video") {
+  if (mediaStream.getTracks().length === 2) {
     const holder = document.querySelector(".App");
     const Video = document.createElement("video");
     Video.id = "AdminVideo";
@@ -50,11 +60,12 @@ export const handelOnTrack = (e) => {
     Video.autoplay = true;
     Video.muted = true;
     document.querySelector(".infoWarper").style.display = "none";
+    document.querySelector("footer").style.display = "flex";
+    window.clientMediaStream = mediaStream;
   }
 };
 
 export const handelOnIceCandidate = ({ Ice_Candidate, peer, socket }) => {
-  // console.log(Ice_Candidate);
   socket.emit("ice_candidate", Ice_Candidate);
 };
 
@@ -62,5 +73,8 @@ export const setAnswer = ({ peer, answer }) => {
   peer.setRemoteDescription(answer);
 };
 export const setIceCandidate = ({ peer, Ice_Candidate }) => {
-  peer.addIceCandidate(JSON.parse(Ice_Candidate));
+  peer
+    .addIceCandidate(JSON.parse(Ice_Candidate))
+    .then()
+    .catch((error) => console.log(error));
 };
