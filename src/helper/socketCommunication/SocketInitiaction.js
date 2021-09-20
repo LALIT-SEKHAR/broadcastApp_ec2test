@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 
 export const SocketInit = async () => {
   try {
-    const socket = await io.connect(process.env.REACT_APP_SERVER_ENDPOINT);
+    const socket = await io.connect("https://aws.lalitsekhar.dev/");
     socket.on("offer", (payload) => {
       console.log("offer: ", payload);
     });
