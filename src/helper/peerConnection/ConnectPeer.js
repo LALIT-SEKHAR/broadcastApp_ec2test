@@ -4,8 +4,8 @@ export const createPeer = () => {
       { urls: "stun:3.108.84.209:3478" },
       {
         urls: "turn:3.108.84.209:3478",
-        credential: "lalitsekharbehera",
-        username: "area51@donotusethispassword",
+        username: "lalitsekharbehera",
+        credential: "area51@donotusethispassword",
       },
     ],
   });
