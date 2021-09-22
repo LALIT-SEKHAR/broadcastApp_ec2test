@@ -3,11 +3,22 @@ const Webrtc = require("wrtc");
 module.exports.createPeer = () => {
   return new Webrtc.RTCPeerConnection({
     iceServers: [
-      { urls: "stun:3.108.84.209:3478" },
+      { urls: "stun:stun1.l.google.com" },
+      { urls: "stun:stun.xten.com" },
       {
-        urls: "turn:3.108.84.209:3478",
-        username: "lalitsekharbehera",
-        credential: "area51@donotusethispassword",
+        urls: "turn:numb.viagenie.ca",
+        username: "lalitsekhar1999@gmail.com",
+        credential: "biDzUg8GhjQth8T",
+      },
+      {
+        urls: "turn:numb.viagenie.ca",
+        username: "lalitasekhar1999@gmail.com",
+        credential: "biDzUg8GhjQth8T",
+      },
+      {
+        urls: "turn:numb.viagenie.ca",
+        username: "webrtc@live.com",
+        credential: "muazkh",
       },
     ],
   });
