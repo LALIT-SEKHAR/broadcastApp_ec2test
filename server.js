@@ -25,14 +25,23 @@ Io.on("connection", (socket) => {
   socket.on("answer", (payload) => {
     console.log("answer: ", payload);
   });
+  socket.on("CLOSE", (payload) => {
+    console.log("close");
+    socket.broadcast.emit("CLOSE");
+  });
   socket.on("disconnect", function () {
     MEMBERS.forEach((member, index) => {
       if (member.id === socket.id) {
         if (member.level !== "ADMIN") {
-          return MEMBERS.splice(index, index);
+          MEMBERS.splice(index, index);
+          console.log(member.id, "remove the meet");
+          return socket.broadcast.emit("MEMBER_LEAVE", { id: member.id });
         }
-        //TODO close all the connection
+        // Removing the ADMIN from the array
         MEMBERS.splice(0, MEMBERS.length);
+        // closing all the connection who connected to the ADMIN
+        console.log("close");
+        socket.broadcast.emit("CLOSE");
       }
     });
   });
