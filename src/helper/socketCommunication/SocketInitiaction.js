@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 
 export const SocketInit = async () => {
   try {
-    const socket = await io.connect("https://aws.lalitsekhar.dev/");
+    const socket = await io.connect("https://aws.lalitsekhar.dev");
     socket.on("offer", (payload) => {
       console.log("offer: ", payload);
     });
@@ -18,6 +18,13 @@ export const SocketInit = async () => {
     });
     socket.on("ERROR", (error) => {
       console.log(error);
+    });
+    socket.on("MEMBER_LEAVE", (payload) => {
+      console.log(payload, "member leave");
+    });
+    socket.on("CLOSE", (error) => {
+      console.log("close");
+      window.location.reload();
     });
     return socket;
   } catch (error) {

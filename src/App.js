@@ -88,6 +88,7 @@ function App() {
     setIsRestart(!IsRestart);
     document.querySelector(".infoWarper").style.display = "block";
     document.querySelector("footer").style.display = "none";
+    Input.current.value === "ADMIN" && Socket.current.emit("CLOSE");
   };
 
   return (
